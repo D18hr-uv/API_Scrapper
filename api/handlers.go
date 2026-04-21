@@ -49,8 +49,8 @@ func SearchHandler(c *fiber.Ctx) error {
 
 	ctx := context.Background()
 	
-	// Create embedding for the query
-	queryEmbs, err := embedder.GenerateEmbeddings(ctx, []string{query})
+	// Create embedding for the query (Nomic requires 'search_query: ' prefix for high accuracy)
+	queryEmbs, err := embedder.GenerateEmbeddings(ctx, []string{"search_query: " + query})
 	if err != nil || len(queryEmbs) == 0 {
 		return c.Status(500).JSON(fiber.Map{"error": "Failed to generate embedding for query"})
 	}

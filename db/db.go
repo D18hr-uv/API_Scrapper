@@ -38,7 +38,6 @@ func InitDB() error {
 }
 
 func createTables(ctx context.Context) error {
-	// Drop old tables so we aren't blocked by the old 1536 dimension schema
 	_, _ = Pool.Exec(ctx, "DROP TABLE IF EXISTS chunks, pages CASCADE")
 
 	// Ensure the pgvector extension is enabled
@@ -62,7 +61,6 @@ func createTables(ctx context.Context) error {
 	}
 
 	// Create Chunks table
-	// Ollama nomic-embed-text outputs 768 dimensions
 	_, err = Pool.Exec(ctx, `
 		CREATE TABLE IF NOT EXISTS chunks (
 			id SERIAL PRIMARY KEY,
